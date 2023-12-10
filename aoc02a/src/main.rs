@@ -17,6 +17,7 @@ fn main() {
         let game_id = data[1];
         println!("  game id: {game_id}");
 
+        let mut possible = true;
         for game_data in games_data.split(';') {
             print!("  ");
             for color in game_data.split(',') {
@@ -24,10 +25,38 @@ fn main() {
                 let num: usize = color[0].parse().unwrap();
                 let color = color[1];
                 print!("{color}:{num}\t\t");
+
+                if color.eq("red") {
+                    if num > 12 {
+                        possible = false
+                    }
+                }
+
+                if color.eq("green") {
+                    if num > 13 {
+                        possible = false;
+                    }
+                }
+
+                if color.eq("blue") {
+                    if num > 14 {
+                        possible = false;
+                    }
+                }
+
+                if !possible {
+                    break;
+                }
             }
-            println!();
+            println!("\n  possible? {possible}");
+
+            if !possible {
+                break;
+            }
         }
-        result = result + game_id.parse::<usize>().unwrap();
+        if possible {
+            result = result + game_id.parse::<usize>().unwrap();
+        }
     }
     println!("\nresult {result}");
 }
